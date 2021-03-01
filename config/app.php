@@ -13,8 +13,9 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
-
+    'name' => env('APP_NAME', 'Laravel'), /* => enve es un helpers ,  me carga la prop que me esta idicando que estamos en entorno de desarollo local  */
+     /* env simplemente es un helpers el unico que hace cargar valores que estan definidos dentro de indices  */ /* en caso si no existe valor en el archivo .env , pues en lugar local se usara un valor predefinido laravel
+      el termino del segundo parametro */
     /*
     |--------------------------------------------------------------------------
     | Application Environment

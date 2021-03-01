@@ -1,5 +1,5 @@
 <?php
-
+/* ==> donde tenemos como crear tablas y estructuras al interior de la base de datos  */
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

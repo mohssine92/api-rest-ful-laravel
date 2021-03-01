@@ -1,5 +1,8 @@
 <?php
 
+/* ==> los seedes nos permiten  uso de los factories , o de propios seedes creados por nosotros  , para insertar informacion normalmente en la base de datos */
+
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
