@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+   /* aqui tenemos routas para la web , lo que corresponde simplemente a todo lo que corresponde a frontend  */
+
 Route::get('/', function () {
     return view('welcome');
 });
