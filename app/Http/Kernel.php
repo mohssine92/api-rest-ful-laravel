@@ -28,8 +28,8 @@ class Kernel extends HttpKernel
      *
      * @var array
      */
-    protected $middlewareGroups = [
-        'web' => [
+    protected $middlewareGroups = [  /* ==> este define dos grupos uno llamado web y otro api  */
+        'web' => [   /* todo los midleware que estan aqui envolocrados se ejcutan para la web */  /* => podemos observar entones como la web hace uso de muchos otros middlewares que no necesita de hecho no deben ser utulizados en la api   */
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
@@ -39,7 +39,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
-        'api' => [
+        'api' => [   /* todo los midleware que estan aqui envolocrados se ejcutan para la api  */
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],

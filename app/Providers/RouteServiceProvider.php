@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
+
+
+
 class RouteServiceProvider extends ServiceProvider
 {
     /**
@@ -37,15 +40,17 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
-        $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
+        $this->routes(function () {         /* RouteServiceProvider especifica la manera en la que funcciona tanto las routas para la api como las routas para la apliacacion web   */
+
+            /* ahora todas las peticiones que recibimos sea atendida  directamente desde la RAIZ Como tal : //apirestful.test/ , para ello simplemete hemos eleminado el prefijo Ver foto relacionados al curso  */
+            Route::middleware('api')     /* para los de la api esta haciendo uso de un groupo de moddleware llamado api  */
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
-            Route::middleware('web')
+            Route::middleware('web')     /* si vemos para aplicacion web esta haciendo uso de un groupo de moddleware llamado web  */
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+
         });
     }
 
