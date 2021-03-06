@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 
 /* => estas routas modificamos posteriormente , comentamos puesto no requerimos ninguna de ellas refiero a la routa o routas para aplicacion web es lo que se trata en este archivo   */
-
-/* Route::get('/', function () {
+/*
+ Route::get('/', function () {
     return view('welcome');
-});
- */
+}); */
+

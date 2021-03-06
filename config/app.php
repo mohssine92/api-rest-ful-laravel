@@ -135,6 +135,10 @@ return [
     |
     */
 
+
+
+    /*  providersmatriz. */ /* Estas son todas las clases de proveedores de servicios que se cargarán para su aplicación */
+    /* no se cargarán en cada solicitud, sino solo cuando los servicios que brindan sean realmente necesarios. */
     'providers' => [
 
         /*
