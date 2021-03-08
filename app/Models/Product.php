@@ -5,8 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
-{
+/* => Importacion la definicion de los modelos  */
+use App\Seller;
+use App\Category;
+use App\Transaction;
+
+class Product extends Model {
     use HasFactory;
 
     const PRODUCT_DISPONIBLE = 'disponible';       /* dicho valor de estos constantes puede ser strings numeros , pues cualquier valor podemos atraves de el controlador estos cosntantes */
@@ -29,6 +33,23 @@ class Product extends Model
     public function estaDiponible()
     {
        return $this->status == Product::PRODUCT_DISPONIBLE;
+    }
+
+    public function seller()  /* metodo Relacion ,  Uno a uno , es decir un producto tiene un vendedor   Relacion uno a uno */
+    {
+        return $this->belongsTo(Seller::class);   /* => el producto pertenece (BelongsTO) al vendedor puesto que el producto quien lleva  la clave  foránea  */
+
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class); /* un producto pose de muchas transacciones , vendido muchas veces , puesto estas transacciones pertenecen a este producto es decir transaction pertenece al product ,  */
+    }
+
+
+    public function categories()  /* metodo relacion , producto hacia category , como hemos dicho como una categoria podra tener varios productos , en mismo tiempo un producto lo puede tener varias categorias  */
+    {
+        return $this->belongsToMany(Category::class);
     }
 
 

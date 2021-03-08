@@ -85,7 +85,8 @@ class User extends Authenticatable
       return str_random(40);  /* es importante que se genere desde 24 caracteres hacia adelante  */
   }
 
-
+  /* en modelo user no pose relaciones de manera directa con nigun otro modelo puesto que sus relaciones se ven especificadas atraves de los modelos seller y buller puesto que estos heredan de modelo user
+  poe ejemplo un user no puede tener compras pero al verle comocomprador puede tener compras es decir puede tener transacciones es decir puede ver sus transacciones   */
 
 
 

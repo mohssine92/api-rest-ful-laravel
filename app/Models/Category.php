@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Product;
+
 class Category extends Model
 {
     use HasFactory;
@@ -20,6 +22,13 @@ class Category extends Model
        'descripcion'
 
    ];
+
+   public function products()  /* relacion mucho a mucho  , categoria hacia producto*/
+   {
+       return $this->belongsToMany(Product::class);  /* una Categoria puede tener muchos productos , tener en cuenta un producto lo puede tener mucha categorias    */
+   }
+
+
 
 
 
