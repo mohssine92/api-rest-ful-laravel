@@ -12,4 +12,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Buyer extends User    /* Eloquent Model documentation Laravel */
 {
     use HasFactory;
+
+     /* buyer y seller no necisitan atrributos de manera especifica puesto que los estan extendiendo directamente del modelo user por medio de la herenncia  */
 }
