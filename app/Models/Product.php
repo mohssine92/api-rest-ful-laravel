@@ -14,7 +14,7 @@ class Product extends Model {
     use HasFactory;
 
     const PRODUCT_DISPONIBLE = 'disponible';       /* dicho valor de estos constantes puede ser strings numeros , pues cualquier valor podemos atraves de el controlador estos cosntantes */
-    const PRODUCT_NO_DISPONIBLE = 'no disponible';
+    const PRODUCTO_NO_DISPONIBLE = 'no disponible';
 
 
     protected $fillable = [   /* => implementamos el atrributo fillable */
