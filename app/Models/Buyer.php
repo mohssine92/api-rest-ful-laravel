@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use App\Transaction;  /* => modelo Transaction */
+use App\Transaction;
+use App\Models\User;
 
 
 /* => recordar que Seller y Buyer ya No extenderian de model , segun el deseño de nuestra api , sino se extenderian de user directamente    */
@@ -25,7 +26,7 @@ class Buyer extends User    /* Eloquent Model documentation Laravel */
      public function transactions()  /* es un método "relaciones" en las entidades. */
      {
          return $this->hasMany(Transaction::class);
-          /* => this Buyer tiene muchos transactions relacion de uno a mucho */ /* con ::class => estamos accediendo a la clase  */ /* id_buyer sera presente varias veces en tabla Transaccion porque ha comprado varias veces*/
+          /* => this Buyer has set (conjunto) transactions relacion de uno a mucho */ /* con ::class => estamos accediendo a la clase  */ /* id_buyer sera presente varias veces en tabla Transaccion porque ha comprado varias veces*/
      }
 
 }

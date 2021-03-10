@@ -43,11 +43,12 @@ class Product extends Model {
 
     public function transactions()
     {
-        return $this->hasMany(Transaction::class); /* un producto pose de muchas transacciones , vendido muchas veces , puesto estas transacciones pertenecen a este producto es decir transaction pertenece al product ,  */
+        return $this->hasMany(Transaction::class); /* relacion uno a mucho , product tiene mucha transaccions , asi la transaccion blongsto product   */
     }
 
 
-    public function categories()  /* metodo relacion , producto hacia category , como hemos dicho como una categoria podra tener varios productos , en mismo tiempo un producto lo puede tener varias categorias  */
+    public function categories()  /* metodo relacion , product hacia category , un producto pertenece a varias categorias es decir un producto no solo tiene un categoria sino que tiene varias , y adicionalmente varios productos pueden pertenecer a la misma
+                                   categoria asi tenemos entonces relacion de muchos a muchos - vamos a ver durante el curso como se maneja este tipo de relacion mediante una tabla de pivote  */
     {
         return $this->belongsToMany(Category::class);
     }

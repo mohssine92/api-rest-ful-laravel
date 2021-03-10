@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Buyer;
 use App\Product;
 
-class Transaction extends Model
+class Transaction extends Model       /* => en este curso trataremos una transaccion por un producto algo como mercado libre , no como amazon transacion por producto o transaccion por productos  */
 {
     use HasFactory;
 
@@ -25,7 +25,7 @@ class Transaction extends Model
 
     public function product()
     {
-    	return $this->belongsTo(Product::class);  /* un id transaction pertenece a un id producto  relaction uno a uno  */
+    	return $this->belongsTo(Product::class);  /* un id transaction pertenece a un id producto  relaction uno a uno  */ /* el deseño de este base de datos tratamos un producto por transaction (algo como mercado libre no como amazon) */
     }
 
 

@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 
 /* => vamos a adaptar el modelo user a las caracteristicas y las necesidades de nuestra apiRestful , laravel trae en su estructura este model llamado user , el cual vamos a usar por supuesto pero tendremos que hacerle algunas adaptaciones a y agregarle
@@ -82,7 +83,7 @@ class User extends Authenticatable
    /* => metodo publico sera estatico nos permitira obtener un token generado automaticamente  */
    public static function generarVerificationToken()
   {
-      return str_random(40);  /* es importante que se genere desde 24 caracteres hacia adelante  */
+      return Str::random(40);  /* es importante que se genere desde 24 caracteres hacia adelante  */
   }
 
   /* en modelo user no pose relaciones de manera directa con nigun otro modelo puesto que sus relaciones se ven especificadas atraves de los modelos seller y buller puesto que estos heredan de modelo user

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
        funccionar en conjunto . sin necesidad de estar juntas todas en el mismo archivo .
          ==> lo que queremos ver ahora ver como funcciona : - Realizar algunas modificaciones que sean accordes de la manera como va funccionar nuestro proyecto puesto que se trata de una apiRestfull como tal .
 
-
+        ==> los endPoints son rutas urls para las cuales nuestra apiRestful esta retornando una respuesta usalmente por ej en formato json , una apiRestful puede tener otras  routas que no neceseriamente son endPoints
 
 |--------------------------------------------------------------------------
 | API Routes ==>  Iran todas las routas relacionadas con nuestra api RESTfull

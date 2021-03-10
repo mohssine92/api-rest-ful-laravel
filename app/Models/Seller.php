@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Product;
+use App\Models\User;
+
 
 
 
@@ -21,7 +23,7 @@ class Seller extends User
 
     public function products()
     {
-    	return $this->hasMany(Product::class);  /* como sabemos , un vendedor pose de muchos Products , asi obtenemos todos products que pose un seller  */
+    	return $this->hasMany(Product::class);  /* como sabemos , un vendedor pose de muchos Products , asi obtenemos todos products que pose un seller  */ /* es decir product pertenece a seller asi product quien lleva la clave foranea */
     }
 
 }
