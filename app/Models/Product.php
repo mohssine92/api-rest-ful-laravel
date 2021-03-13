@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /* => Importacion la definicion de los modelos  */
-use App\Seller;
-use App\Category;
-use App\Transaction;
+ use App\Models\Seller;
+use App\Models\Category;
+use App\Models\Transaction;
 
 class Product extends Model {
-    use HasFactory;
+
+    use HasFactory;   /* trait llamado HasFactory ==> gracias a este trait podemos acceder a un metodo que es factory() , y mas metodo que les corresponda ..  */ /* todos modelos usan este tarit */
 
     const PRODUCT_DISPONIBLE = 'disponible';       /* dicho valor de estos constantes puede ser strings numeros , pues cualquier valor podemos atraves de el controlador estos cosntantes */
     const PRODUCTO_NO_DISPONIBLE = 'no disponible';

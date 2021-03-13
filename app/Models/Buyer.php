@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use App\Transaction;
+use App\Models\Transaction;
 use App\Models\User;
 
 

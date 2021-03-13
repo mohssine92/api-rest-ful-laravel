@@ -15,7 +15,11 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    const USUARIO_VERIFICADO = '1';     /* segun el profesor sera como mejor practica usar como valor a estos tipos de constantes strings en ves de numeros o booleanos */
+
+   /*para nosotros la tabla donde estan almacenados sellers y buyers es la misma tabla users , entonces tenemos que especificar esto de manera clara para laravel . y asi evitar problemas puesto seller y buyer heredan los atributos y metodos */
+    protected $table = 'users'; /* decir de una manera explicita la tabla de este modelo  */
+
+    const USUARIO_VERIFICADO = '1';   /* segun el profesor sera como mejor practica usar como valor a estos tipos de constantes strings en ves de numeros o booleanos */
     const USUARIO_NO_VERIFICADO = '0';
 
     const USUARIO_ADMINISTRADOR = 'true';

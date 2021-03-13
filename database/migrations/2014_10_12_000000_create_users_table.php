@@ -39,3 +39,11 @@ class CreateUsersTable extends Migration
         Schema::dropIfExists('users');
     }
 }
+
+    /* Comandos relacionados => php artisan migrate  => instalar las shemas definidas es decir crear tablas
+                                php artisan refresh => actualizar las shemas en caso que haya cambiado algo en las shemas
+                                php artisan reset  =>eleminara progresivamente todas migraciones que haya ejecutado
+                                php artisan rollback  => simplemente retrocedera la uñltima migracion ejecutada en caso de querere volver un poco atraz progresivamente en cada ejecucion de esta ultima  */
+
+                                /* ==> logico cuando estamos de prueba nada mas ejecutamos la migracion ejecutamos => php artisan db:seed par alimentar nuestras tablas por datos falso , por supuesto despues de generar nuestras clases
+                                seeder , y conectarla con databaseseeder.php .   */

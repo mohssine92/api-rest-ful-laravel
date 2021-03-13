@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Buyer;
-use App\Product;
+use App\Models\Buyer;
+use App\Models\Product;
 
 class Transaction extends Model       /* => en este curso trataremos una transaccion por un producto algo como mercado libre , no como amazon transacion por producto o transaccion por productos  */
 {
