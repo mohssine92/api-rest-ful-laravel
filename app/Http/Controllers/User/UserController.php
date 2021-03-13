@@ -53,9 +53,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id)  /* => el id se especifica directamente de la url  como 2 params */
     {
-        //
+         /* $usuario = User::find($id); */  /* usar este metodo , si no encuentra el id buscado retorna data null lo cual no es correcto  */
+
+         /* asi cuando el id no existe retorna data con valor null , lo cual no es corercto debemos retornar un mensaje de typo 404 con mensaje diciendo que el recurso no se encuetra  */ /* en vez de tener agregar un condicional laravel nos ayuda con este metodo  */
+          $usuario = User::findOrFail($id);  /* metodo busca y en mismo tiempo pregunta si existe el usuario o no  - automaticamente dispara una excepcion en caso el id buscado no exista  */
+                                             /* en un desarollo posterior vamos mejorando estos tipo de detalles , haciendo control de estos tipos de excepciones y mostrando mensajes mas adecuados  */
+
+        /*  esto ['data' => $usuario]  deberia ir en una function , por ahora lo hacemos de este moddo , par ir mostrando paso a paso como se hace la devolucion par ir mejorando nuestro codigo paso a paso posteriormente  */
+
+        return response()->json(['data' => $usuario], 200);
+
     }
 
     /**
