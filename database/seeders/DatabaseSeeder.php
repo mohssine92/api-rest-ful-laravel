@@ -15,6 +15,8 @@
     3. ahora si hemos hechos estos pasos podemos comenzar en la ejecuccion de los factories
 
       php artisan db:seed   , sin olvidar de ejecutar antes php artisan migration => para generacion de tablas despues de especificar las shema de cada tabla relacionada con modole que corresponda a nuestra api
+      --> en caso actualizamos clases de migraciones con modificaciones por supuesto modificamos tambien los seeder para la insersacion de datos falsos . la ejecuccioo de borrar tablas crear y insertar datos falso se puede hacer con 1 unico
+      comando : php artisan migrate:refresh --seed
 
     */
 

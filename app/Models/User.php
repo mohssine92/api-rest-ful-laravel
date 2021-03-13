@@ -31,7 +31,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
+    protected $fillable = [   /* $fillable de insertar solo los attributos declarados en su array */
         'name',
         'email',
         'password',
@@ -51,10 +51,10 @@ class User extends Authenticatable
      */
     /* => modelo user justamente por defecto en laravel trae un nuevo atrributo $hidden  : este atrributo basicamente occulta los atrributos incluidos en su array al momento de convertir la representacion de  este modelo en un array , laravel cuando va
      convertir  un modelo en una respuesta json que es lo que vamos a utulizar a lo largo del curso como se trata de una apiRestfull , lo convierte en un array y luego dicho array lo transforma en un formato json . por lo tanto cualquier attributo
-     lo incluimos dentro del atrributo $hidden va ser occultado automaticamente en la respuestas de nuestras APIRestful   */
+     lo incluimos dentro del atrributo $hidden va ser occultado automaticamente en la respuestas de nuestras APIRestful */
      /* remember_token => que es basicamente el token que se utuliza cuando el usuario inicia session por medio del frontend  es decir atraves de interfaz grafica y tilda la opcion de recordarme entonces esta parte ayudara a determinar si el usuario
-      debe mantenerse con una session activa o no  */
-      /* verification_token => nadie puede tener acceso al token de verificacion de un usuario especifico para luego validarlo exclusivo el adminiostrador del systema , puesto que esta validacion deberia realizarse unica y exlusivamente desde el correo
+       debe mantenerse con una session activa o no  */
+    /* verification_token => nadie puede tener acceso al token de verificacion de un usuario especifico para luego validarlo exclusivo el adminiostrador del systema , puesto que esta validacion deberia realizarse unica y exlusivamente desde el correo
       electronico del propitario de esta cuenta de usuario  */
     protected $hidden = [
         'password',

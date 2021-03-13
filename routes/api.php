@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 /* => tenemos la routas para la api por ejemplo - las cual vamos modificando a lo largo del curso */
 
 /*  Route::middleware('auth:api')->get('/user', function (Request $request) {
