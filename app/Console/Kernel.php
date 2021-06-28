@@ -2,9 +2,14 @@
 
 namespace App\Console;
 
+
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+
+/*
+  todo al respecto a la consola , comando que puedo crear en algun momento a mi aplicacion de laravel
+*/
 class Kernel extends ConsoleKernel
 {
     /**

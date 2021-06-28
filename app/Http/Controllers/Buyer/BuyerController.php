@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Buyer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+
+/*
+ *  hemos creado cada carpeta por cada recurso - de momento tenemos creado un controller por cada recurso , pude que se aumente los controller por cada recurso
+ * asi con esta arquetectura nos queda claro los recursos que tenemos en nuestro proyecto .
+*/
 class BuyerController extends Controller
 {
     /**

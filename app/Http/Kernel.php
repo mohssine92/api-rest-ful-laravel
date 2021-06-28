@@ -4,6 +4,9 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
+/*
+ * configuracion de la manera como se llamaran o se utulizaran dichos middlwares en nuestra systema de laravel .
+*/
 class Kernel extends HttpKernel
 {
     /**
@@ -28,8 +31,8 @@ class Kernel extends HttpKernel
      *
      * @var array
      */
-    protected $middlewareGroups = [  /* ==> este define dos grupos uno llamado web y otro api  */
-        'web' => [   /* todo los midleware que estan aqui envolocrados se ejcutan para la web */  /* => podemos observar entones como la web hace uso de muchos otros middlewares que no necesita de hecho no deben ser utulizados en la api   */
+    protected $middlewareGroups = [
+        'web' => [ // enemura define los mdlrs para api
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
@@ -39,7 +42,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
-        'api' => [   /* todo los midleware que estan aqui envolocrados se ejcutan para la api  */
+        'api' => [ // enemura define los mdlrs para api
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],

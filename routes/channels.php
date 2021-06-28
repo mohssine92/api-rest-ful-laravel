@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Broadcast;
 | used to check if an authenticated user can listen to the channel.
 |
 */
-  /* invistiga el uso de este arcchivo  */
+/* canales de envio de notificaciones o similares en la applicacion
+ * en este courso trabajamos sobre archivo api
+*/
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });

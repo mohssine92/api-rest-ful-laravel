@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/* => Importacion la definicion de los modelos  */
- use App\Models\Seller;
+
+use App\Models\Seller;
 use App\Models\Category;
 use App\Models\Transaction;
 
@@ -14,11 +14,13 @@ class Product extends Model {
 
     use HasFactory;   /* trait llamado HasFactory ==> gracias a este trait podemos acceder a un metodo que es factory() , y mas metodo que les corresponda ..  */ /* todos modelos usan este tarit */
 
-    const PRODUCT_DISPONIBLE = 'disponible';       /* dicho valor de estos constantes puede ser strings numeros , pues cualquier valor podemos atraves de el controlador estos cosntantes */
+    // constantes previamente definidas => usadas en  status attribute
+    // durante la vida de la app vamos a requerir el estado va saber si el product esta diponible o no
+    const PRODUCT_DISPONIBLE = 'disponible';
     const PRODUCTO_NO_DISPONIBLE = 'no disponible';
 
 
-    protected $fillable = [   /* => implementamos el atrributo fillable */
+    protected $fillable = [  // son basicamente attributes que podran ser asignados de manera masiva .
        'name',
        'description',
        'quantity',
@@ -26,30 +28,41 @@ class Product extends Model {
        'image',
        'seller_id'
 
-    ];   /* status , vamos a permitir solo dos posible parametros , disponible y no disponible  , lo hacemos atraves del constante */
+    ];   /* status : puede ser diferentes valores , pero en este caso manejamos 2 valores dos posibles estados */
 
 
-    /* en el proyecto es seguro requerir si un proyecto esta disponible o no por ello usamos esta funccion , es sencillo  llamamos directamente a esta funccion en lugar de poner condiciones en cada lugar de los lugares para saber si un proyecto esta
-    disponible o no   */
+    /*
+     * la llamamos cuando requerimos saber si un producto esta disponible o no
+    */
     public function estaDiponible()
     {
        return $this->status == Product::PRODUCT_DISPONIBLE;
     }
 
-    public function seller()  /* metodo Relacion ,  Uno a uno , es decir un producto tiene un vendedor   Relacion uno a uno */
-    {
-        return $this->belongsTo(Seller::class);   /* => el producto pertenece (BelongsTO) al vendedor puesto que el producto quien lleva  la clave  foránea  */
 
+
+    /*
+     * un producto pertenece a un seller - (user o empresa)
+     * relacion de uno a mucho puesto que un seller tiene mucho productos
+    */
+    public function seller()
+    {
+      return $this->belongsTo(Seller::class);
     }
 
+    /*
+     * basicamente un producto pose de muchas transacciones - un producto esta presente en muchas transcciones
+     *
+    */
     public function transactions()
     {
-        return $this->hasMany(Transaction::class); /* relacion uno a mucho , product tiene mucha transaccions , asi la transaccion blongsto product   */
+       return $this->hasMany(Transaction::class);
     }
 
-
-    public function categories()  /* metodo relacion , product hacia category , un producto pertenece a varias categorias es decir un producto no solo tiene un categoria sino que tiene varias , y adicionalmente varios productos pueden pertenecer a la misma
-                                   categoria asi tenemos entonces relacion de muchos a muchos - vamos a ver durante el curso como se maneja este tipo de relacion mediante una tabla de pivote  */
+    /*
+     *  una categoria tiene ralacion de muchos a mucho con products
+    */
+    public function categories()
     {
         return $this->belongsToMany(Category::class);
     }

@@ -8,24 +8,33 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Buyer;
 use App\Models\Product;
 
-class Transaction extends Model       /* => en este curso trataremos una transaccion por un producto algo como mercado libre , no como amazon transacion por producto o transaccion por productos  */
+class Transaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-       'quantity',
-       'buyer_id',
-       'product_id'
+    protected $fillable = [ //  ... y indicando el recurso transaction tiene tres attributes en este caso
+       'quantity',  // cantidad del producto en fesico comprado
+       'buyer_id',  // clave foraneas hacia comprador - la transaccion pertenece al comprador
+       'product_id' // clave foreanea hacia product - la transaccion pertenece al producto
     ];
 
-    public function buyer()  /* metodo reelacion entre ercursos */
+
+
+    /* quien es el comprador ?
+     * Relacion de uno a mucho inversa - un transaccion pertenece a un buyer
+    */
+    public function buyer()
     {
-    	return $this->belongsTo(Buyer::class);  /* un id transaction pertenece a un comprador relaction uno a uno  */
+        return $this->belongsTo(Buyer::class);
     }
 
+
+    /* que preducto ha sido comprado ?
+     *  Relacion de uno a mucho inversa - una transaccion pertenece a un producto
+    */
     public function product()
     {
-    	return $this->belongsTo(Product::class);  /* un id transaction pertenece a un id producto  relaction uno a uno  */ /* el deseño de este base de datos tratamos un producto por transaction (algo como mercado libre no como amazon) */
+    	return $this->belongsTo(Product::class);
     }
 
 

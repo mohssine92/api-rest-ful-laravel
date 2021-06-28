@@ -9,19 +9,23 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 
-/* => vamos a adaptar el modelo user a las caracteristicas y las necesidades de nuestra apiRestful , laravel trae en su estructura este model llamado user , el cual vamos a usar por supuesto pero tendremos que hacerle algunas adaptaciones a y agregarle
-algunos atrributos mas que vamso a requerir   */
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    /*
+     * de manera particular este modelo no pose de relaciones directas con ninguno de los modelos , sino atraves de los modelos que lo heredan : seller - buyer
+    */
 
-   /*para nosotros la tabla donde estan almacenados sellers y buyers es la misma tabla users , entonces tenemos que especificar esto de manera clara para laravel . y asi evitar problemas puesto seller y buyer heredan los atributos y metodos */
+
     protected $table = 'users'; /* decir de una manera explicita la tabla de este modelo  */
 
-    const USUARIO_VERIFICADO = '1';   /* segun el profesor sera como mejor practica usar como valor a estos tipos de constantes strings en ves de numeros o booleanos */
+    // usadas para el attribute verify
+    const USUARIO_VERIFICADO = '1';
     const USUARIO_NO_VERIFICADO = '0';
 
+    // usuadas para la prop admin - dijo el profesor luego veremos por que es siempre mejor usar estos valores como strings , sean booleanos o number : siempre debe ir como string
     const USUARIO_ADMINISTRADOR = 'true';
     const USUARIO_REGULAR = 'false';
 
@@ -31,35 +35,28 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [   /* $fillable de insertar solo los attributos declarados en su array */
+    protected $fillable = [
         'name',
         'email',
         'password',
-        'verified',
-        'verification_token',
-        'admin',
+        'verified', // hacemos uso de constantes para determinar si un user esta verificado o no .
+        'verification_token', // para verificar justamente su correo electronico atraves de un codigo de verificacion
+        'admin', // usamos constantes para saber si el user autenticado es admin o no - en otros caso trabajamos con roles
 
     ];
-    /* verification_token un atrributto se utlizara justamente para verificar su correo electronico atraves de un correo de verificacion  */
-    /* admin es un atrributo nos indica si el usuario es un administrador o no  */
 
 
     /**
      * The attributes that should be hidden for arrays.
-     *
+     * es decir cuando laravel convierta el modelo user en una respuesta json , lo que hace lo convierta primero en un array y luego dicho array lo transforma en un formato json
+     * por lo cual cualquier attribute incluido en en $hidden sera occultado en nuestras respuestas json _> en nuestra saliada
      * @var array
      */
-    /* => modelo user justamente por defecto en laravel trae un nuevo atrributo $hidden  : este atrributo basicamente occulta los atrributos incluidos en su array al momento de convertir la representacion de  este modelo en un array , laravel cuando va
-     convertir  un modelo en una respuesta json que es lo que vamos a utulizar a lo largo del curso como se trata de una apiRestfull , lo convierte en un array y luego dicho array lo transforma en un formato json . por lo tanto cualquier attributo
-     lo incluimos dentro del atrributo $hidden va ser occultado automaticamente en la respuestas de nuestras APIRestful */
-     /* remember_token => que es basicamente el token que se utuliza cuando el usuario inicia session por medio del frontend  es decir atraves de interfaz grafica y tilda la opcion de recordarme entonces esta parte ayudara a determinar si el usuario
-       debe mantenerse con una session activa o no  */
-    /* verification_token => nadie puede tener acceso al token de verificacion de un usuario especifico para luego validarlo exclusivo el adminiostrador del systema , puesto que esta validacion deberia realizarse unica y exlusivamente desde el correo
-      electronico del propitario de esta cuenta de usuario  */
+
     protected $hidden = [
         'password',
-        'remember_token',
-        'verification_token',
+        'remember_token',// basicamente cuando user inicia session por medio de front-end es decir por medio de interfaz grafica - y tilda la opcion de recordarme : esta parte ayudara si un user debe mantenerse con session activa o no .
+        'verification_token', // nadie puede acceder ... paraque luego validarlo de manera incorrecta :_ esta validacion debe realizarse unicamente desde el correo electronico del propitario de esta cuenta del user autenticado
     ];
 
     /**
@@ -72,26 +69,32 @@ class User extends Authenticatable
     ];
 
 
-   /* => metodo para saber si un usuario esta identificado o no  */
+
+  /*
+   * para saber si un user esta verificado o no
+  */
    public function esVerificado()
    {
-    return $this->verified == User::USUARIO_VERIFICADO;
+      return $this->verified == User::USUARIO_VERIFICADO;
    }
 
-   /* => para saber si un usuario es administrador o no  */
+
+  /*
+   *  para saber si un user es administrador o no
+   */
    public function esAdministrador()
    {
-    return $this->admin == User::USUARIO_ADMINISTRADOR;
+      return $this->admin == User::USUARIO_ADMINISTRADOR;
    }
 
-   /* => metodo publico sera estatico nos permitira obtener un token generado automaticamente  */
+  /*
+   *  me permit obtener un token de verificacion generado automaticamente
+   */
    public static function generarVerificationToken()
   {
-      return Str::random(40);  /* es importante que se genere desde 24 caracteres hacia adelante  */
+      return Str::random(40);  // recomendado desde 25 adelante , en este caso 40
   }
 
-  /* en modelo user no pose relaciones de manera directa con nigun otro modelo puesto que sus relaciones se ven especificadas atraves de los modelos seller y buller puesto que estos heredan de modelo user
-  poe ejemplo un user no puede tener compras pero al verle comocomprador puede tener compras es decir puede tener transacciones es decir puede ver sus transacciones   */
 
 
 

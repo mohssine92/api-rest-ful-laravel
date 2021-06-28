@@ -60,3 +60,6 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# los comandos de php artisan en caso de se trata de migraciones se hace los comandos desde la maquina virtual porque aunque el proyecto se encuentra sincronizado a la maquina virtual la db se encuentra
+# en maquina virtual , lo que hace no hay conexion de hacer migraciones de la maquina local a un db que se encuentra en la maquina vitual . 

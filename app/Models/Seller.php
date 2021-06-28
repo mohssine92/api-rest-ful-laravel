@@ -10,20 +10,21 @@ use App\Models\User;
 
 
 
-/* => recordar que Seller y Buyer ya No extenderian de model , segun el deseño de nuestra api , sino se extenderian de user directamente    */
-/* puesto se extendirian de user ya no nesitan importar la definicion de model   */
-/* ahora bien , a la hora de crear migraciones es muy imporatnante el orden  */
-
-
-class Seller extends User
+/*
+ * al extender de user enmediatamente herede su estructura , por lo tanto no requiere tablas o migraciones especificamnete dedicadas a el simplemente haran uso de tabla creada para user .
+ *  no necesita attributes de manera especifica puesto que lo esta extiendo los de manera dirtecta del modelo user por medio de la herencia
+*/
+class Seller extends User // => herede su estructura db : atrributes de su modelo asi -  puesto que .. no necesito importar definicion de model
 {
     use HasFactory;
 
-    /* buyer y seller no necisitan atrributos de manera especifica puesto que los estan extendiendo directamente del modelo user por medio de la herenncia  */
 
+    /*
+     * relacion de uno a muchos - un seller tiene de 0 a muchos productos a vender
+    */
     public function products()
     {
-    	return $this->hasMany(Product::class);  /* como sabemos , un vendedor pose de muchos Products , asi obtenemos todos products que pose un seller  */ /* es decir product pertenece a seller asi product quien lleva la clave foranea */
+    	return $this->hasMany(Product::class);
     }
 
 }

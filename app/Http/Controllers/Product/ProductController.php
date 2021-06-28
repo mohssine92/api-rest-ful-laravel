@@ -57,7 +57,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+     // basicamente lo que hace create deberia returnar un formulario o algo asi , para la creacion de ese recurso sin embargo no hacemos uso de estos 2 metodos de create y edit puesto que no vamos a returnar vistas html - sino vamos a returnar directamente respuestas en formato json
     }
 
     /**
@@ -69,7 +69,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       // basicamente lo que hace create deberia returnar un formulario o algo asi , para la creacion de ese recurso sin embargo no hacemos uso de estos 2 metodos de create y edit puesto que no vamos a returnar vistas html - sino vamos a returnar directamente respuestas en formato json
     }
 
     /**

@@ -4,6 +4,11 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
+
+/*
+ * los middelwares basicamente son elementos que se ejcutan antes de atender una peticion dada .
+ * buscando realizar modificaciones o comprabaciones en la misma peticion por ej : verificar rol del user que esta relizando la peticion o si el mismo user esta autenticado ..
+*/
 class Authenticate extends Middleware
 {
     /**

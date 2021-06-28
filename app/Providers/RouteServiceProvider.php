@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
 
- /* este es un provider Route service es para una configuraciones de routas , primero cuando se solicita atraves de archivo para routas api o web , se ejecuta la funccion convenniente , es decir si trata de routa de api se ejecuta una funccion para
-  routas de api en en su vez tiene que ejecutar una sirie de middleware para las routas de api y un metodo indicarle hacia donde tiene que derigirse al momento de indicarle una routa hacia un controlodor , que a su vez empieza a separar rutas
-  depende de metodos que trae este controlador   */
 
+/*
+ * especifica como funcionar las rutas tanto para la api como para la aplicacion web .
+*/
 class RouteServiceProvider extends ServiceProvider
 {
     /**
@@ -58,19 +58,23 @@ class RouteServiceProvider extends ServiceProvider
 
     }
      /* basicamente lo que estamos haciendo es separa los lugares donde se van registrarse estas routas */
+
+
+
+
     protected function mapApiRoutes()
     {
-         /* ahora todas las peticiones que recibimos sea atendida  directamente desde la RAIZ Como tal : //apirestful.test/ , para ello simplemete hemos eleminado el prefijo Ver foto relacionados al curso  */
-         Route::middleware('api')     /* para los de la api esta haciendo uso de un groupo de moddleware llamado api  */
+         Route::middleware('api')  /* para los de la api esta haciendo uso de un groupo de moddleware llamado api  */  // ver Kernel $middlewareGroups
+         // prefix('api') => en este caso se trata de api de nivel superior , comento el prefijo porque en la peticion quiero que sea atendida en el raiz como tal: apiresful.dev/
          ->namespace($this->namespace) /* => hacer llamada al metodo name space indicandole que se haga uso del atributo namespace que nosotros acabamos de ,,,,,,,,,,,, */
          ->group(base_path('routes/api.php'));
-
 
     }
 
     protected function mapWebRoutes()
     {
-        Route::middleware('web')     /* si vemos para aplicacion web esta haciendo uso de un groupo de moddleware llamado web  */
+
+        Route::middleware('web')   /*  vemos para aplicacion web esta haciendo uso de un groupo de moddleware llamado web  */ // ver Kernel $middlewareGroups
         ->namespace($this->namespace)
         ->group(base_path('routes/web.php'));
 

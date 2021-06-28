@@ -6,10 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-/* => este controlador ha sido creado atraves del comando ==>  php artisan make:controller User/UserController -r , es decir controlador de typo resource es un controlador viene con acciones para administrar un recourso en este punto cuando
-digo un recourso me refiero al modelo , este es el termino que se usa cuando estamos trabajando en un api .  */
 
-/* ==>  estamos desarollando una apiRestfull para verificar resultado de las funccionalidades de cada controller vamos hacer uso de psotman */
 
 class UserController extends Controller
 {
@@ -20,7 +17,7 @@ class UserController extends Controller
      */
     public function index()  /* la llamada al controller en la lista de routas de api se ejecuta esta function , porsupuesta la llama ser atraves de postman*/
     {
-        //Eloquent ORM de Laravel obtenemos lista de manera muy sencilla la lsiat de todo ususarios
+
         $usuarios = User::all();
 
         /*return $usuarios; */   /* => observo laravel automaticamente ha transformado la colleccion de datos que hemos obtenido en una collecction de objetos Json sin pedirlo   */

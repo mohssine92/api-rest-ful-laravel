@@ -13,13 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/* routas a todo lo que corresponde a front-end */
 
-   /* aqui tenemos routas para la web , lo que corresponde simplemente a todo lo que corresponde a frontend  */ /* => digamos corresponde a una aplicacion web */
 
-
-/* => estas routas modificamos posteriormente , comentamos puesto no requerimos ninguna de ellas refiero a la routa o routas para aplicacion web es lo que se trata en este archivo   */
-/*
- Route::get('/', function () {
+/*  Route::get('/', function () {
     return view('welcome');
-}); */
-
+});
+ */
