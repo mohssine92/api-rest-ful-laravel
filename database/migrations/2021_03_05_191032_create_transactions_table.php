@@ -17,10 +17,12 @@ class CreateTransactionsTable extends Migration
 
             $table->increments('id');
             $table->integer('quantity')->unsigned();
-            $table->integer('buyer_id')->unsigned();
-            $table->integer('product_id')->unsigned();
+            $table->integer('buyer_id')->unsigned(); // comprador
+            $table->integer('product_id')->unsigned(); // producto
             $table->timestamps();
            /*  $table->softDeletes(); */
+
+
 
             $table->foreign('buyer_id')->references('id')->on('users');
             $table->foreign('product_id')->references('id')->on('products');

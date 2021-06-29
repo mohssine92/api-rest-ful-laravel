@@ -8,13 +8,19 @@ class CategoryProductTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * tabla pivote - ayuda a laravel resolver la relacion de muchos a muchos entre : dos modelos - dos tablas
+     * en tabla pivote no es necesario id ni timestamps : puesto no vamos a tener instancias o recursos directamente de la tabla sino se va a utulizar esta tabla por parte de laravel
+     * como de forma transparente para nosotros
      * @return void
      */
     public function up()
     {
         Schema::create('category_product', function (Blueprint $table) {
 
+             /* siendo ambos claves Foreaneas
+              * enteros y sin signo . ids autoIncrementales positivos
+              * vamos a decir son claves foreaneas y apuntan atablas corespondientes
+             */
             $table->integer('category_id')->unsigned();
             $table->integer('product_id')->unsigned();
 
@@ -23,8 +29,7 @@ class CategoryProductTable extends Migration
 
 
         });
-        /* sin embargo al tratarse a una tabla pivote no es necesario ni siquiera tener un id  ni los tiemstamps puesto que no vamos a estar obteniendo recursos o instancias directamente a la tabla sino sera utulizada de manera transparente
-        para nosotros atraves de laravel */
+
     }
 
     /**

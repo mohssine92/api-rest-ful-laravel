@@ -31,6 +31,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);  /* especificar por defecto numero de caracteres por el asunto de charset en base de datos  */
+        Schema::defaultStringLength(191);  /* especificar por defecto numero de caracteres por el asunto de charset en base de datos - suporte de emoticones V: 39 */
     }
 }

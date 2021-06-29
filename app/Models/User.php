@@ -18,8 +18,11 @@ class User extends Authenticatable
      * de manera particular este modelo no pose de relaciones directas con ninguno de los modelos , sino atraves de los modelos que lo heredan : seller - buyer
     */
 
-
-    protected $table = 'users'; /* decir de una manera explicita la tabla de este modelo  */
+    /* decir de una manera explicita la tabla de este modelo
+     * evitar problemas con models sellers y buyers , al momento de jecutar las migraciones . 500
+     * asi como seller y buyer - heredan user asi heredan el attribute $table y lo usaran de manera implicita .
+    */
+    protected $table = 'users';
 
     // usadas para el attribute verify
     const USUARIO_VERIFICADO = '1';

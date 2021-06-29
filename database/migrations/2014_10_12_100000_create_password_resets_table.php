@@ -8,7 +8,7 @@ class CreatePasswordResetsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * Recueda que la migracion de pass - no hemos modificado nada - ya venia originalmente con laravel
      * @return void
      */
     public function up()

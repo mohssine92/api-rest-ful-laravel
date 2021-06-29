@@ -24,9 +24,9 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-             /* los ids son autoincremental no necesitamos especificar en el factory puesto ya la table de  db se encarga de asignar de manera secuencial , el id de cada fila insertada por medios de estos factories    */
-            'name' => $this->faker->word, /* palabra en vez nombre de persona  */
-            'description' => $this->faker->paragraph(1), /* solo requerimos un parrafo */
+             // ids ,la  db se encarga de incertar de manera autoincremental -secuencialmente por cada uno de estos factories incertados
+            'name' => $this->faker->word,
+            'description' => $this->faker->paragraph(1),
 
         ];
     }

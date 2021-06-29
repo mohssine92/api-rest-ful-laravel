@@ -13,7 +13,7 @@ class UserFactory extends Factory
      *
      * @var string
      */
-    protected $model = User::class;  /* esta propiedad modelo al que corresponda este factory */
+    protected $model = User::class;
 
     /**
      * Define the model's default state.
@@ -24,18 +24,16 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
+            'email' => $this->faker->unique()->safeEmail, // generar email seguro - es decir pertenezca a un dominio exista - unique no se repita durante el proceso de generacion
            /*  'email_verified_at' => now(), */
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'verified' => $verificado = $this->faker->randomElement([User::USUARIO_VERIFICADO, User::USUARIO_NO_VERIFICADO]),  /* variar unicamente de manera aleatoria entre los valores de las constantes que ya definimos */
-            'verification_token' => $verificado == User::USUARIO_VERIFICADO ? null : User::generarVerificationToken(), /* condicion , si es verificadi = 1 returnamos null , sino tomamos valor que retorna la function  */
-            'admin' => $this->faker->randomElement([User::USUARIO_ADMINISTRADOR, User::USUARIO_REGULAR]), /* gracias a la libreria faker nos proporciona herramienta de : variar unicamente de manera aleatoria entre los valores de las constantes que ya definimos   */
+            'verified' => $verificado = $this->faker->randomElement( [User::USUARIO_VERIFICADO, User::USUARIO_NO_VERIFICADO] ),
+            // si no esta verificado - generame token de verificacion
+            'verification_token' => $verificado == User::USUARIO_VERIFICADO ? null : User::generarVerificationToken(),
+            'admin' => $this->faker->randomElement( [User::USUARIO_ADMINISTRADOR, User::USUARIO_REGULAR] ),
         ];
     }
-    /* laravel por defecto incluye un pequeño factory para Modelo User , sin embargo vamos a hacer modificacion para adaptarlo a los atrributos de nuestro modelo , En modo de prueba => los factories se van a encargar de llenar nuestra
-       base de datos con fake data , lo unico que tenemos que indicarle typo de tados a rellenar y la cantidad de registros con la que quiero que se rellene la base de datos    */
-
 
 
     /**

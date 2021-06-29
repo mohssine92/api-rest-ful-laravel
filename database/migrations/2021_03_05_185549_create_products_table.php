@@ -18,19 +18,20 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
 
-            $table->increments('id');
+            $table->increments('id'); // autoincremental
             $table->string('name');
-            $table->string('description', 1000);
-            $table->integer('quantity')->unsigned(); /* tiene que ser entero . y positivo es decir no tener sigono unsigned() */
-            $table->string('status')->default(Product::PRODUCTO_NO_DISPONIBLE);  /* => la default funccion asigna valor por defecto que le pasamos por params , al attributo  */
+            $table->string('description', 1000);  // especificar un valor maximo de caracteres de 1000
+            $table->integer('quantity')->unsigned(); // entero - no tenga signo : debe ser positivo
+            $table->string('status')->default( Product::PRODUCTO_NO_DISPONIBLE );  // por defecto no disponible - Recordar importar la definicion del modelo
             $table->string('image');
-            $table->integer('seller_id')->unsigned();  /* esta es una clave forranea es decir product pertenece a seller */
+            $table->integer('seller_id')->unsigned(); // es id : es clave foreanea - apunta a la tabla users : porque es la cual obtenemos la lista de sellers - herencia - positive id
             $table->timestamps();
 
+
+            /* establecer la calve foreanea que tiene el objeto producto  referiendo al id usuario
+             * observacion Model seller no consta de tabla , se herede extiende de userModel .
+            */
             $table->foreign('seller_id')->references('id')->on('users');
-            /* la clave forreanea referenciando a id ususario , por eso hemos dico es muy importante el orden al momento de crear las migraciones sino da fallo al momneto de ejecutar , estamos relacionando directamente con
-            user no seller no buyer puesto que lo herede de user
-             */
 
 
 

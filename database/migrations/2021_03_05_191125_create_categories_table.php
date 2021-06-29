@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
 
             $table->increments('id');
             $table->string('name');
-            $table->string('description', 1000); /* pude ser de maximum 1000 caracteres  */
+            $table->string('description', 1000);  // especificar un valor maximo de caracteres de 1000
             $table->timestamps();
             /* $table->softDeletes(); */
 
