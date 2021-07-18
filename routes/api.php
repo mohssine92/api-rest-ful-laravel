@@ -59,8 +59,9 @@ Route::resource('users', 'User\UserController',['except' => ['create','edit']]);
 
 
 
+
 /*
- * otra forma de llamara controler
- *  esta forma requiere el use requerir el controller
+ *  otra forma de llamara controler
+ *  equiere el use requerir el controller : ver codersFreee
 */
 //Route::resource('products',ProductsController::class , ['only' => ['index','show']] );

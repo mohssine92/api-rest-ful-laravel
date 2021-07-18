@@ -4,7 +4,8 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
+
+use App\Models\User; // Orm eloquente de laravel
 
 
 
@@ -12,25 +13,17 @@ class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * meto index en caso de existir en algun controller lo que hace listar todos los Recursos : prover al cliente de Front-end los recursos
      * @return \Illuminate\Http\Response
      */
-    public function index()  /* la llamada al controller en la lista de routas de api se ejecuta esta function , porsupuesta la llama ser atraves de postman*/
+    public function index() // video 51
     {
 
-        $usuarios = User::all();
+      $usuarios = User::all();
 
-        /*return $usuarios; */   /* => observo laravel automaticamente ha transformado la colleccion de datos que hemos obtenido en una collecction de objetos Json sin pedirlo   */
-
-        /* NB: ==> aunque laravel devuelve la respuesta en una colleccion de objetos Json , Nosotros vamos a utulizar directamente el metodo de laravel Para poder especificar Un poco la estructura de la respuesta  */
-         /*  return response()->json($usuarios, 200);  */   /* => returnamos respuesta de tipo Json usandando metodo de Laravel  */ /* es lo mismo que retorna laravel por defecto */
-
-         /* ==> Ahora bien, sin embargo es muy Importante ser consistentes en la manera en la que retornamos las respuestas para los clientes o usuarios que vayan a consumir nuestra apiRestFull , es muy Importante contar con un elemento Raiz en al respuesta*/
-         /* => de estas manera al identificar ese elemento raiz data , puede determinar desde que punto obtener los datos que han solicitado , Hay diferentes estandares de elemento raiz , el mas comun y simple es data */
-        return response()->json(['data' => $usuarios], 200);
+      return response()->json(['data' => $usuarios ], 200);
 
     }
-
 
 
     /**
@@ -38,93 +31,153 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * Crear instancia de user
+     * este metodo de este End-point , espera campos de un form cliente
+     * video : 53
      */
-     /* =>metodo store nos permite crear instancias de usuarios */
-     /* estamos obteniendo por defecto un $request ,basicamente por medio de este objeto request que ha sido inyectado por medio resolucion de dependencias vamos a obtener toda la informacion relacionada
-        con la peticion (http) lo cual incluye por supuesto los campos recibidos en la peticion para crear el usurio es decir nombre que se va  utulizar , correo electronico , contraseña eetcc    */
-    public function store(Request $request)  /* => para crear instancia la peticion se realiza por medio meto http post */
+
+    public function store(Request $request)
     {
-        $campos = $request->all(); /* $campos recibe todo que venga con la peticion   */ /* de este metodo tendremos en un array() ... lo que acabamos de mencionar es decir la infs que nos va traer objeto request */
-                                    /* sabemos tenemos que hacer un control del typado de datos que recibimos como si es email correcto o no , tambien no podemos hacer de uso todo los datos recibidos por los usuarios , ya sabemos los maliosos usuarios
-                                     atraves de herramientas del desarollador cuando se trata de aplicacion web o en este caso en especifico tratamos con Apis de frontend como Angular donde no podemos hacer uso de todos los datos que mandan sus formularios
-                                     por ejemplo lo que corresponde al campo[ admin y verified ] tienes que ser esteblecidas explicitamente por nosotros y no acorde al que el el usuario envia puesto que nosotros quien decidamos si el usuario es administrador
-                                     y si esta verificado o no */
-
-
-        /* => adicionalmente tenemos que validar que recibamos los campos minimos necesarios , validar que el email sera email valido , validar contraseña y que sea confirmada es decir se envia un campo de confirmacion para validar que el usuario esta
-          haciendo la contraseña que cree ,  */
-        /* REGLA DE VALIDACION  */
+       /* Reglas de validacion
+        * campos minimos a recibir y validacion
+        * nota 1 , V: 53
+        * asi verified and admin , nosotros que asignamos estos valores en la instancia
+       */
         $rules = [
           'name' => 'required',
-          'email' => 'required|email|unique:users',  /* tiene que unico en tabla users */
-          'password' => 'required|min:6|confirmed'  /* => tiene que ser confirmada es decir tenemos que recibir un campo llamado password_confirmation = password , mismo valor que password  = password  */
+          'email' => 'required|email|unique:users', // users refiere a la tabla del modelo user .
+          'password' => 'required|min:6|confirmed' // confirmed es decir debo reciber 1 campo de : password_confirmation : debe coincidir con password para lograr pasar la validacion
         ];
-        /* ejecutar estas reglas validando la peticion , en caso no pasan laravel disparara una exception posteriormente vemos como controlar esta exception de manera sencilla  */
-        $this->validate($request, $rules); /* se hace atraves este metodo , pasando la peticion original y las reglas a usar  */
+
+        /* Ejecutar las reglas validar la request , sino laravel dispara un excepcion : luego veremos como manejarla  */
+        $this->validate( $request, $rules );
 
 
+        /* en este nivel  hemos pasado la barrera de la validacion */
+        /* Insancia de de Request : datos del form cliente recibido o posteado desde el cliente */
+        $campos = $request->all();
+        $campos['password'] = bcrypt( $request->password ); // Encryptar password de manera acorde a los requiremientos de la Db . - bcrytpr es un Helpers
+        $campos['verified'] = User::USUARIO_NO_VERIFICADO; // debe ser asignado explicitamente por nosotros , y no de acorde al que user envia . nosotros quien indicamos si es verificado o no , por default
+        $campos['verification_token'] = User::generarVerificationToken(); // paraque justamente el user verifique su cuenta o correo electronico
+        $campos['admin'] = User::USUARIO_REGULAR;  // debe ser asignado explicitamento por nosotros , y no de acorde al que user envia . nosotros quien indicamos  si es admin o no . por default user regular no admin
 
-        /* ASIGNACION POR DEFECTO  */  /* se toma estos valores y se ignora valor mandados por un cliente sea angular o react en estos campos en especifico , en casso password se toma valor incryptado porsupuesto  */
+       /* Operacion de almacenamiento */
+       $usuario = User::create($campos);
 
-        $campos['password'] = bcrypt($request->password); /* => el password tiene que increptarse de manera accorde a los requiremientos de db apartir del valor original por supuesto , usando el helpers bycripts  */
-        $campos['verified'] = User::USUARIO_NO_VERIFICADO;/* =>establecer el valor por defecto , Recuerda que los attributos que establecemos por defecto no debemos tomar en cuenta lo que el cliente frontend(angular) asigna como valor a este campo o atributo */
-        $campos['verification_token'] = User::generarVerificationToken();/* => token de verificacion , paraque un user verifique su correo electronico , asignamos por defecto ... */
-        $campos['admin'] = User::USUARIO_REGULAR; /* => asignamos por defecto que un usuario es un usario regular no es un administrador  */
-
-
-
-        /* => Ahora bien creamos una instancia por medio function create de orm  */
-        $usuario = User::create($campos);  /* la function create() hace lo que se conece como asignacion masiva es decir que estamos asignado inmediatamente todos attributos que correspondan a este instancia user , No estamos asignando uno por uno  */
-                                           /* estamos mandando todo por una vez por medio de un array en este caso el array es $campos , por la asignacion masiva , hemos aplicado lo que conoce como $fillable en el modelo para evitar inyecciones
-                                           es decir insersaciones que no queremos */
-
+       /*returno response de 201 - indicando que ya se realizo la operacion del almacenmaiento */
+       return response()->json([ 'data' => $usuario ], 201 );
 
 
-        return response()->json(['data' => $usuario], 201); /* retornamos respuesta 201 indicando que ya se realizo la operacion de almacenamiento con exito */ /* si te fijas la contraseña y token ..etc no ha sido devuelta en respuesta debido a la propiedad de
-                                                              $hiden que usamos en nuestro modelo que es capaz de esconder los atributos que declaramos en su array. refiero a los atrributos del modelo user   */
 
     }
 
+
+
     /**
      * Display the specified resource.
-     *
+     *  prover un user depende del $id especicado
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)  /* => el id se especifica directamente de la url  como 2 params */
+    public function show($id)
     {
-         /* $usuario = User::find($id); */  /* usar este metodo , si no encuentra el id buscado retorna data null lo cual no es correcto  */
+        /* findOrFail : en lugar de usar condicional que el user no existe , este metodo de eloquent dispra una excepcion , status 404 not found : nos ayuda un poco
+         * ver video 52 .
+        */
+        $usuario = User::findOrFail($id);
 
-         /* asi cuando el id no existe retorna data con valor null , lo cual no es corercto debemos retornar un mensaje de typo 404 con mensaje diciendo que el recurso no se encuetra  */ /* en vez de tener agregar un condicional laravel nos ayuda con este metodo  */
-          $usuario = User::findOrFail($id);  /* metodo busca y en mismo tiempo pregunta si existe el usuario o no  - automaticamente dispara una excepcion en caso el id buscado no exista  */
-                                             /* en un desarollo posterior vamos mejorando estos tipo de detalles , haciendo control de estos tipos de excepciones y mostrando mensajes mas adecuados  */
-
-        /*  esto ['data' => $usuario]  deberia ir en una function , por ahora lo hacemos de este moddo , par ir mostrando paso a paso como se hace la devolucion par ir mejorando nuestro codigo paso a paso posteriormente  */
 
         return response()->json(['data' => $usuario], 200);
 
     }
 
+
     /**
      * Update the specified resource in storage.
-     *
+     * Actualizar user  - video 54
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update( Request $request, $id )  // no usado .debe recibir id params como put - por injeccion de dependencia me saca la instancia del objeto user a actualizar
     {
-        //
+        /* instancia del objeto con tal id , si no existe dispara exepcion 404 */
+        $user = User::findOrFail($id);
+
+
+        $reglas = [ // nota : requirido nada , no obligo a actualizar algun campo en especifico al momento de request por parte del cliente
+          'email' => 'email|unique:users,email,' . $user->id, // unico sin incluir el del user , hay casos cambias otros campos , asi no rompemos
+          'password' => 'min:6|confirmed',
+          'admin' => 'in:' . User::USUARIO_ADMINISTRADOR . ',' . User::USUARIO_REGULAR, // regla in : los 2 valores que Aceptamos en este caso , verificar valor de admin  de estos 2 posibles valores
+        ];
+
+         /* validar la reglas
+          * aqui se dispara la Excepcion , que debemos manipular Posteriomente
+         */
+         $this->validate( $request , $reglas );
+
+
+
+        /* Proceso de asignar la actualizacion , campo por campo  */
+        if ($request->has('name')) {
+            $user->name = $request->name;
+        }
+
+        if ( $request->has('email') && $user->email != $request->email ) { // en caso sea email diferente , eso quiere decir que el email sea no verificado debo generale nuevo token para verified el user
+            $user->verified = User::USUARIO_NO_VERIFICADO;
+            $user->verification_token = User::generarVerificationToken(); // este token se generado a user para Fin de verificacion
+            $user->email = $request->email;
+        }
+
+        if ( $request->has('password') ) {
+            $user->password = bcrypt( $request->password );
+        }
+
+        if ( $request->has('admin') ) {
+           // $this->allowedAdminAction();
+
+            if (!$user->esVerificado()) { // Video 54
+               // return $this->errorResponse('Unicamente los usuarios verificados pueden cambiar su valor de administrador', 409);
+                return response()->json(['error' => 'Unicamente los usuarios verificados pueden cambiar su valor de administrador', 'code' => 409 ], 409 ); // 409  implica que tenemos un conflicto a la peticion que realiza user
+            }
+
+            $user->admin = $request->admin; // esta verificado ... puede ..
+        }
+
+        // verificar se el user ha realizado algun tipo de actualizacion : es decir si los valores son lo mismo tanto de la instancia del $user como las llegadas por $request
+        if ( !$user->isDirty() ) {
+            return response()->json( [ 'error' => 'Se debe especificar al menos un valor diferente para actualizar', 'code' => 422 ], 422 );
+        }
+
+        /* almacenamiento en Db */
+        $user->save();
+
+       // returno modelo con su modificaciones realizadas
+        return response()->json([ 'data' => $user ], 200);
+
+
+
     }
 
     /**
      * Remove the specified resource from storage.
-     *
+     *  eleminar instancias que ya existen
+      TODO  :
+      * es recomendable no eleminar solo al modelo user dar una prop donde manejamos dos valores booleanos como hezimos en node . segun validacion sabemos que la cuenta del user desactivada: es decir eleminada
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+
+        /* !! de momento segunda eleminacion del mismo dispra una Excepcion que debemos manipular correctamente
+         *
+        */
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        return response()->json([ 'data' => $user ], 200);
+
     }
 }
