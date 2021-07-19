@@ -20,11 +20,11 @@ class Seller extends User // => herede su estructura db : atrributes de su model
 
 
     /*
-     * relacion de uno a muchos - un seller tiene de 0 a muchos productos a vender
+     * relacion de uno a muchos - un seller tiene de 1 a muchos productos a vender
     */
     public function products()
     {
-    	return $this->hasMany(Product::class);
+    	return $this->hasMany( Product::class );
     }
 
 }

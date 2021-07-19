@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
+
     use HasFactory, Notifiable;
 
     /*
@@ -31,6 +32,29 @@ class User extends Authenticatable
     // usuadas para la prop admin - dijo el profesor luego veremos por que es siempre mejor usar estos valores como strings , sean booleanos o number : siempre debe ir como string
     const USUARIO_ADMINISTRADOR = 'true';
     const USUARIO_REGULAR = 'false';
+
+
+
+    /* mutadores y Accesores al momento de almacenamiento o recuperamiento : ver video 60 para refrescar memoria
+     * Mutadores : set : establecer
+    */
+     public function setNameAttribute ( $valor ) {
+       $this->attributes['name'] = strtolower( $valor );
+     } // momento de establecer antes de insertar le aplica ....al prop : atrib del this model
+
+     public function setEmailAttribute ( $valor ) {
+        $this->attributes['email'] = strtolower( $valor );
+     } // otro mutador para correo electronico
+
+
+     /* Accesores : video 60
+      * get despes de obtener de db modifica
+     */
+     public function getNameAttribute ( $valor ) {
+       // return ucfirst( $valor ); // solo primer palabra
+          return ucwords( $valor );
+    }  // se transforma el valor sin necesida de modificarlo , poner primer letra en mayuscula de la Composicion del name
+
 
 
     /**
@@ -57,9 +81,9 @@ class User extends Authenticatable
      */
 
     protected $hidden = [
-        'password',
-        'remember_token',// basicamente cuando user inicia session por medio de front-end es decir por medio de interfaz grafica - y tilda la opcion de recordarme : esta parte ayudara si un user debe mantenerse con session activa o no .
-        'verification_token', // nadie puede acceder ... paraque luego validarlo de manera incorrecta :_ esta validacion debe realizarse unicamente desde el correo electronico del propitario de esta cuenta del user autenticado
+       'password',
+       'remember_token',// basicamente cuando user inicia session por medio de front-end es decir por medio de interfaz grafica - y tilda la opcion de recordarme : esta parte ayudara si un user debe mantenerse con session activa o no .
+       'verification_token', // nadie puede acceder ... paraque luego validarlo de manera incorrecta :_ esta validacion debe realizarse unicamente desde el correo electronico del propitario de esta cuenta del user autenticado
     ];
 
     /**
@@ -68,8 +92,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+       'email_verified_at' => 'datetime',
     ];
+
 
 
 
@@ -82,7 +107,7 @@ class User extends Authenticatable
    }
 
 
-  /*
+   /*
    *  para saber si un user es administrador o no
    */
    public function esAdministrador()
@@ -90,20 +115,14 @@ class User extends Authenticatable
       return $this->admin == User::USUARIO_ADMINISTRADOR;
    }
 
-  /*
+
+   /*
    *  me permit obtener un token de verificacion generado automaticamente
    */
    public static function generarVerificationToken()
-  {
-      return Str::random(40);  // recomendado desde 25 adelante , en este caso 40
-  }
-
-
-
-
-
-
-
+   {
+       return Str::random(40);  // recomendado desde 25 adelante , en este caso 40
+   }
 
 
 

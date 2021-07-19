@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 
 use App\Models\User; // Orm eloquente de laravel
 
 
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +21,8 @@ class UserController extends Controller
 
       $usuarios = User::all();
 
-      return response()->json(['data' => $usuarios ], 200);
+      return $this->showAll( $usuarios );
+
 
     }
 
@@ -65,8 +66,7 @@ class UserController extends Controller
        $usuario = User::create($campos);
 
        /*returno response de 201 - indicando que ya se realizo la operacion del almacenmaiento */
-       return response()->json([ 'data' => $usuario ], 201 );
-
+       return $this->showOne($usuario, 201 );
 
 
     }
@@ -84,10 +84,9 @@ class UserController extends Controller
         /* findOrFail : en lugar de usar condicional que el user no existe , este metodo de eloquent dispra una excepcion , status 404 not found : nos ayuda un poco
          * ver video 52 .
         */
-        $usuario = User::findOrFail($id);
+        $usuario = User::findOrFail( $id );
 
-
-        return response()->json(['data' => $usuario], 200);
+        return $this->showOne( $usuario );
 
     }
 
@@ -153,8 +152,7 @@ class UserController extends Controller
         $user->save();
 
        // returno modelo con su modificaciones realizadas
-        return response()->json([ 'data' => $user ], 200);
-
+       return $this->showOne( $user );
 
 
     }
@@ -177,7 +175,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        return response()->json([ 'data' => $user ], 200);
+        return $this->showOne( $user );
 
     }
 }
