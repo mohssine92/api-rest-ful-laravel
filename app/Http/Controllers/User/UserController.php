@@ -39,6 +39,7 @@ class UserController extends ApiController
 
     public function store(Request $request)
     {
+
        /* Reglas de validacion
         * campos minimos a recibir y validacion
         * nota 1 , V: 53
@@ -47,12 +48,11 @@ class UserController extends ApiController
         $rules = [
           'name' => 'required',
           'email' => 'required|email|unique:users', // users refiere a la tabla del modelo user .
-          'password' => 'required|min:6|confirmed' // confirmed es decir debo reciber 1 campo de : password_confirmation : debe coincidir con password para lograr pasar la validacion
+          'password' => 'required|min:6|confirmed'  // confirmed es decir debo reciber 1 campo de : password_confirmation : debe coincidir con password para lograr pasar la validacion
         ];
 
         /* Ejecutar las reglas validar la request , sino laravel dispara un excepcion : luego veremos como manejarla  */
         $this->validate( $request, $rules );
-
 
         /* en este nivel  hemos pasado la barrera de la validacion */
         /* Insancia de de Request : datos del form cliente recibido o posteado desde el cliente */
@@ -137,7 +137,7 @@ class UserController extends ApiController
 
             if (!$user->esVerificado()) { // Video 54
                // return $this->errorResponse('Unicamente los usuarios verificados pueden cambiar su valor de administrador', 409);
-                return response()->json(['error' => 'Unicamente los usuarios verificados pueden cambiar su valor de administrador', 'code' => 409 ], 409 ); // 409  implica que tenemos un conflicto a la peticion que realiza user
+                return $this->errorResponse( 'Unicamente los usuarios verificados pueden cambiar su valor de administrador', 409 );
             }
 
             $user->admin = $request->admin; // esta verificado ... puede ..
@@ -145,7 +145,7 @@ class UserController extends ApiController
 
         // verificar se el user ha realizado algun tipo de actualizacion : es decir si los valores son lo mismo tanto de la instancia del $user como las llegadas por $request
         if ( !$user->isDirty() ) {
-            return response()->json( [ 'error' => 'Se debe especificar al menos un valor diferente para actualizar', 'code' => 422 ], 422 );
+            return $this->errorResponse( 'Se debe especificar al menos un valor diferente para actualizar', 422 );
         }
 
         /* almacenamiento en Db */
