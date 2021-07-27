@@ -14,7 +14,7 @@ use App\Traits\ApiResponser;
 */
 class ApiController extends Controller
 {
-   // use del Traits video 62
+   // use del Traits video 62 : usar un trait : en lugar de rescribir metodos :asi la ApiController tiene acceso a todos metodos de trait + los controladores que herendan de ApiController tienen acceso tambien a los metodos de tarit
     use ApiResponser;
 
 

@@ -81,10 +81,13 @@ class UserController extends ApiController
      */
     public function show($id)
     {
-        /* findOrFail : en lugar de usar condicional que el user no existe , este metodo de eloquent dispra una excepcion , status 404 not found : nos ayuda un poco
-         * ver video 52 .
+        /* ver video 52 .
+         * findOrFail : en lugar de usar condicional que el user no existe , este metodo de eloquent dispra una excepcion , status 404 not found :
+         * => asi en el handler class hemos aplicado modificaciones para este tipo err : cuando el id no existe : es decir intentar de obtener instancia no existe : asi la excepcion la hemos programado en respuesta estadarizada en json video 65 : para mas informacion
+         *
+         *
         */
-        $usuario = User::findOrFail( $id );
+        $usuario = User::findOrFail( $id ); // si id no existe : dispara ecxepcion
 
         return $this->showOne( $usuario );
 
@@ -143,7 +146,7 @@ class UserController extends ApiController
             $user->admin = $request->admin; // esta verificado ... puede ..
         }
 
-        // verificar se el user ha realizado algun tipo de actualizacion : es decir si los valores son lo mismo tanto de la instancia del $user como las llegadas por $request
+        // verificar si el user ha realizado algun tipo de actualizacion : es decir si los valores son lo mismo tanto de la instancia del $user como las llegadas por $request
         if ( !$user->isDirty() ) {
             return $this->errorResponse( 'Se debe especificar al menos un valor diferente para actualizar', 422 );
         }
